@@ -58,12 +58,13 @@ export default function Card(card, props, deckLength){
             </SCAnswerBtns>
         </SCCard>
         <SCBottom data-test="footer" theEnd={theEnd} active={props.active}> 
-            <SCFeedbackContainer data-test="finish-text">
-                <SCFeedbackTitle theEnd={theEnd}>
-                    <SCFeedbackImg src={feedbackArray.length === deckLength ? (forgotArray.length === 0 ? './assets/party.png' : './assets/sad.png') : '' }></SCFeedbackImg>
-                    {feedbackArray.length === deckLength ? (forgotArray.length === 0 ? congratsTitle : sorryTitle) : '' }
-                </SCFeedbackTitle>
-                <SCFeedbackMsg theEnd={theEnd} >{feedbackArray.length === deckLength ? (forgotArray.length === 0 ? congratsMsg : sorryMsg) : '' }</SCFeedbackMsg>
+            <SCFeedbackContainer theEnd={theEnd}>
+                    <SCFeedbackMsg theEnd={theEnd} data-test="finish-text"> 
+                       
+                        <SCFeedbackTitle theEnd={theEnd}> <SCFeedbackImg theEnd={theEnd} src={theEnd ? (forgotArray.length === 0 ? './assets/party.png' : './assets/sad.png') : '' }></SCFeedbackImg>{theEnd ? (forgotArray.length === 0 ? congratsTitle : sorryTitle) : '' }</SCFeedbackTitle>
+                        <br></br>
+                        {feedbackArray.length === deckLength ? (forgotArray.length === 0 ? congratsMsg: sorryMsg) : '' }
+                    </SCFeedbackMsg>
             </SCFeedbackContainer>
             <SCProgress>{feedbackArray.length}/{deckLength} CONCLUÍDOS </SCProgress> 
             <SCIconsContainer>
@@ -96,6 +97,11 @@ border-top: 1px solid black;
 const SCFeedbackContainer = styled.div`
 width: 100%;
 height: 100%;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+display: ${(x) => x.theEnd ? 'flex' : 'none'};
 `
 
 const SCFeedbackImg = styled.img`
@@ -104,34 +110,32 @@ height: 23px;
 margin-right: 12px;
 `
 
-const SCFeedbackTitle = styled.div`
-width: 100%;
-height: 100%;
+const SCFeedbackTitle = styled.h3`
 font-family: 'Recursive';
 font-style: normal;
 font-weight: 700;
 font-size: 18px;
-line-height: 22px;
+line-height: 0;
 color: #333333;
 text-align: center;
-display: ${(x) => x.theEnd ? 'block' : 'none'}
+display: ${(x) => x.theEnd ? 'block' : 'none'};
 
 `
 
-const SCFeedbackMsg = styled.div`
-width: 100%;
-height: 100%;
+const SCFeedbackMsg = styled.p`
+width: auto;
+height: auto;
 font-family: 'Recursive';
 font-style: normal;
 font-weight: 400;
 font-size: 18px;
-line-height: 22px;
+line-height: 17px;
 text-align: center;
 color: #333333;
 padding-left: 5px;
 padding-right: 5px;
-white-space: normal;
 display: ${(x) => x.theEnd ? 'flex' : 'none'}
+flex-direction: row;
 `
 
 const SCProgress = styled.div`
