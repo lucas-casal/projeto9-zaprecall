@@ -2,46 +2,157 @@ import React from "react";
 import { useState } from "react";
 import styled from 'styled-components';
 
-export default function Card(props){
+const feedbackArray = [];
+const forgotArray = [];
+const congratsTitle = 'Parabéns!';
+const congratsMsg = 'Você não esqueceu de nenhum flashcard!';
+
+const sorryTitle = 'Putz...';
+const sorryMsg = 'Ainda faltam alguns... Mas não desanime!'; 
+
+export default function Card(card, props, deckLength){
     let [step, setStep] = useState(0);
     let [forgotIcon, setForgotIcon] = useState(false);
     let [almostIcon, setAlmostIcon] = useState(false);
     let [zapIcon, setZapIcon] = useState(false);
     
-    console.log(step)
+
 
     function forgot(){
         setStep(3);
         setForgotIcon(true);
-
+        let novoIcone = './assets/icone_erro.png'
+        feedbackArray.push(novoIcone);
+        forgotArray.push('-');
     }
 
     function almost(){
         setStep(3);
         setAlmostIcon(true);
+        let novoIcone = './assets/icone_quase.png'
+        feedbackArray.push(novoIcone);
     }
     
     function zap(){
         setStep(3);
         setZapIcon(true);
+        let novoIcone = './assets/icone_certo.png'
+        feedbackArray.push(novoIcone);
     }
 
+    if(feedbackArray.length === deckLength){
+        
+    }
 
+    let theEnd=(feedbackArray.length === deckLength);
     return(
-        <CSCard key={props.number} step={step} >
-            <CSQuestion step={step} forgotIcon={forgotIcon} almostIcon={almostIcon}>{step === 2? props.answer : step === 1 ? props.question : ('Pergunta ' + props.number) }</CSQuestion>
-            <CSRevealQuestion step={step} onClick={()=>{step < 2 ? setStep(step + 1) : ""}} src ={step === 0 ? './assets/seta_play.png' : (step === 1 ? './assets/seta_virar.png' : (step === 3 ? (forgotIcon ? './assets/icone_erro.png' : (almostIcon ? './assets/icone_quase.png' : './assets/icone_certo.png')):''))} ></CSRevealQuestion>
-            <CSAnswerBtns step={step}>
-                <CSForgot onClick={forgot}>Não lembrei</CSForgot>
-                <CSAlmost onClick={almost}>Quase não lembrei</CSAlmost>
-                <CSZap onClick={zap}>Zap!</CSZap>
-            </CSAnswerBtns>
-        </CSCard>
+        <>
+        <SCCard key={card.number} step={step} >
+            <SCQuestion step={step} forgotIcon={forgotIcon} almostIcon={almostIcon}>{step === 2? card.answer : step === 1 ? card.question : ('Pergunta ' + card.number) }</SCQuestion>
+            <SCRevealQuestion step={step} onClick={()=>{step < 2 ? setStep(step + 1) : ""}} src ={step === 0 ? './assets/seta_play.png' : (step === 1 ? './assets/seta_virar.png' : (step === 3 ? (forgotIcon ? './assets/icone_erro.png' : (almostIcon ? './assets/icone_quase.png' : './assets/icone_certo.png')):''))} ></SCRevealQuestion>
+            <SCAnswerBtns step={step}>
+                <SCForgot onClick={forgot}>Não lembrei</SCForgot>
+                <SCAlmost onClick={almost}>Quase não lembrei</SCAlmost>
+                <SCZap onClick={zap}>Zap!</SCZap>
+            </SCAnswerBtns>
+        </SCCard>
+        <SCBottom active={props.active}> 
+            <SCFeedbackTitle theEnd={theEnd}>
+                <SCFeedbackImg src={feedbackArray.length === deckLength ? (forgotArray.length === 0 ? './assets/party.png' : './assets/sad.png') : '' }></SCFeedbackImg>
+                {feedbackArray.length === deckLength ? (forgotArray.length === 0 ? congratsTitle : sorryTitle) : '' }
+            </SCFeedbackTitle>
+            <SCFeedbackMsg theEnd={theEnd} >{feedbackArray.length === deckLength ? (forgotArray.length === 0 ? congratsMsg : sorryMsg) : '' }</SCFeedbackMsg>
+            <SCProgress>{feedbackArray.length}/{deckLength} CONCLUÍDOS </SCProgress> 
+            <SCIconsContainer>
+                {feedbackArray.map((x) => {return (<SCBottomIcons src={x}></SCBottomIcons>)})}
+            </SCIconsContainer>
+        </SCBottom>
+        </>
     )
 }
 
-const CSCard = styled.span`
-width: 300px;
+const SCBottom = styled.div`
+position: fixed;
+bottom: 0;
+left:0;
+background-color: #FFFFFF;
+width: 100%;
+min-height: 70px;
+max-height: 171px;
+display:${(props) => props.active ? 'none' : 'flex' } ;
+flex-direction: column;
+align-items: center;
+justify-content: center; 
+gap: 10px;
+padding-top: 10px;
+box-sizing: border-box;
+padding-left: 50px;
+padding-right: 50px;
+`
+const SCFeedbackImg = styled.img`
+width: 23px;
+height: 23px;
+margin-right: 12px;
+`
+
+const SCFeedbackTitle = styled.div`
+width: 100%;
+height: 100%;
+font-family: 'Recursive';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+line-height: 22px;
+color: #333333;
+text-align: center;
+display: ${(x) => x.theEnd ? 'block' : 'none'}
+
+`
+
+const SCFeedbackMsg = styled.div`
+width: 100%;
+height: 100%;
+font-family: 'Recursive';
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 22px;
+text-align: center;
+color: #333333;
+display: ${(x) => x.theEnd ? 'block' : 'none'}
+`
+
+const SCProgress = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+align-items: center; 
+justify-content: center; 
+color: #333333;
+font-family: 'Recursive', sans-serif;
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 22px;
+`
+
+const SCBottomIcons = styled.img`
+width: 23px;
+height: 23px;
+`
+
+const SCIconsContainer = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 5px;
+`
+
+
+const SCCard = styled.span`
+width: 285px;
 height: ${(x) => ((x.step < 3 && x.step !== 0) && x.step !== 0) ? '131px' : '65px'};
 background-color: ${(x) => (x.step < 3 && x.step !== 0) ? '#FFFFD5' : '#FFFFFF'};
 box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
@@ -55,7 +166,7 @@ justify-content: space-between;
 padding-left: 15px;
 `
 
-const CSQuestion = styled.span`
+const SCQuestion = styled.span`
 color: #333333;
 width: auto;
 height: auto;
@@ -68,9 +179,9 @@ color: ${(x) => x.step === 3 ? (x.forgotIcon ? '#FF3030' : (x.almostIcon ? '#FF9
 text-decoration-line: ${(x) => x.step === 3 ? 'line-through' : 'none' };
 `
 
-const CSRevealQuestion = styled.img`
-width: ${(x) => x.step === 1 ? '30px' : '20px'};
-height: ${(x) => x.step === 1 ? '20px' : '23px'};
+const SCRevealQuestion = styled.img`
+width: ${(x) => x.step === 0 ? '20px' : (x.step === 1 ? '30px' : '23px')};
+height: ${(x) => x.step !== 1 ? '23px' : '20px'};
 margin-top: ${(x) => x.step === 1 ? '105px' : '0'};
 margin-right: 20px;
 display: ${(x) => x.step !== 2 ? 'flex' : 'none'};
@@ -78,7 +189,7 @@ display: ${(x) => x.step !== 2 ? 'flex' : 'none'};
 
 `
 
-const CSAnswerBtns = styled.span`
+const SCAnswerBtns = styled.span`
 width: 100%;
 height: 37px;
 display: flex;
@@ -87,7 +198,7 @@ gap: 8px;
 display: ${(x) => x.step !== 2 ? 'none' : 'flex'};
 `
 
-const CSForgot = styled.button`
+const SCForgot = styled.button`
 width:  85px;
 height: 37px;
 border-radius: 5px;
@@ -103,7 +214,7 @@ align-items: center;
 justify-content: center;
 `
 
-const CSAlmost = styled.button`
+const SCAlmost = styled.button`
 width:  85px;
 height: 37px;
 border-radius: 5px;
@@ -119,7 +230,7 @@ align-items: center;
 justify-content: center;
 `
 
-const CSZap = styled.button`
+const SCZap = styled.button`
 width:  85px;
 height: 37px;
 border-radius: 5px;

@@ -17,7 +17,7 @@ export default function Cards(props){
     
     return(
         <SCCardsContainer active = {props.active}>
-            {cards.map(x => Card(x))}
+            {cards.map(x => Card(x, props, cards.length))}
         </SCCardsContainer>
     )
 }

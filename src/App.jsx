@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 
 function App() {
-  const [active, setActive] = useState(false) //deixar true na versão final!!!!!!!
+  const [active, setActive] = useState(true) //deixar true na versão final!!!!!!!
 
 
   return (
@@ -25,7 +25,6 @@ function App() {
       <SCContent>
       <Cards active={active} />
       </SCContent>
-      <SCBottom active={active}> 0/8 CONCLUÍDOS </SCBottom>
     </SCZapBackground>
 
     <div id="zap-bottom"></div>
@@ -43,6 +42,7 @@ const SCWelcomeBackground = styled.div`
   display:${(props) => props.active ? 'flex' : 'none' } ;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 `
 
 const SCWelcomeLogo = styled.img`
@@ -114,31 +114,17 @@ const SCZapBackground = styled.div`
 width: 100%;
 height: 100%;
 padding-bottom: 100px;
+display: ${(props) => props.active ? 'none' : 'block' } ;
 background-color: #FB6B6B;
 `
 const SCContent = styled.div`
-width: 100%;
-height: 500px;
-padding-bottom: 100px;
+width: auto;
+max-height: 500px;
+padding-bottom: 50px;
 flex-direction: column;
 align-items: center;
 overflow-y: scroll;
 padding-top: 150px;
-`
-const SCBottom = styled.div`
-position: fixed;
-bottom: 0;
-left:0;
-background-color: #FFFFFF;
-width: 100%;
-height: 70px;
-display:${(props) => props.active ? 'none' : 'flex' } ;
-align-items: center;
-justify-content: center; 
-color: #333333;
-font-family: 'Recursive', sans-serif;
-font-style: normal;
-font-weight: 400;
-font-size: 18px;
-line-height: 22px;
+box-sizing: border-box;
+display: ${(props) => props.active ? 'none' : 'block' } ;
 `
