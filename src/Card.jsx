@@ -44,27 +44,30 @@ export default function Card(card, props, deckLength){
         
     }
 
+
     let theEnd=(feedbackArray.length === deckLength);
     return(
         <>
-        <SCCard key={card.number} step={step} >
-            <SCQuestion step={step} forgotIcon={forgotIcon} almostIcon={almostIcon}>{step === 2? card.answer : step === 1 ? card.question : ('Pergunta ' + card.number) }</SCQuestion>
-            <SCRevealQuestion step={step} onClick={()=>{step < 2 ? setStep(step + 1) : ""}} src ={step === 0 ? './assets/seta_play.png' : (step === 1 ? './assets/seta_virar.png' : (step === 3 ? (forgotIcon ? './assets/icone_erro.png' : (almostIcon ? './assets/icone_quase.png' : './assets/icone_certo.png')):''))} ></SCRevealQuestion>
+        <SCCard data-test="flashcard" key={card.number} step={step} >
+            <SCQuestion data-test="flashcard-text" step={step} forgotIcon={forgotIcon} almostIcon={almostIcon}>{step === 2? card.answer : step === 1 ? card.question : ('Pergunta ' + card.number) }</SCQuestion>
+            <SCRevealQuestion data-test={step === 0 ? 'play-btn' : (step === 1 ? 'turn-btn' : (step === 3 ? (forgotIcon ? 'no-icon' : (almostIcon ? 'partial-icon' : (zapIcon ? 'zap-icon' : ''))):''))} step={step} onClick={()=>{step < 2 ? setStep(step + 1) : ""}} src ={step === 0 ? './assets/seta_play.png' : (step === 1 ? './assets/seta_virar.png' : (step === 3 ? (forgotIcon ? './assets/icone_erro.png' : (almostIcon ? './assets/icone_quase.png' : './assets/icone_certo.png')):''))} ></SCRevealQuestion>
             <SCAnswerBtns step={step}>
-                <SCForgot onClick={forgot}>Não lembrei</SCForgot>
-                <SCAlmost onClick={almost}>Quase não lembrei</SCAlmost>
-                <SCZap onClick={zap}>Zap!</SCZap>
+                <SCForgot data-test="no-btn" onClick={forgot}>Não lembrei</SCForgot>
+                <SCAlmost data-test="partial-btn" onClick={almost}>Quase não lembrei</SCAlmost>
+                <SCZap data-test="zap-btn" onClick={zap}>Zap!</SCZap>
             </SCAnswerBtns>
         </SCCard>
-        <SCBottom active={props.active}> 
-            <SCFeedbackTitle theEnd={theEnd}>
-                <SCFeedbackImg src={feedbackArray.length === deckLength ? (forgotArray.length === 0 ? './assets/party.png' : './assets/sad.png') : '' }></SCFeedbackImg>
-                {feedbackArray.length === deckLength ? (forgotArray.length === 0 ? congratsTitle : sorryTitle) : '' }
-            </SCFeedbackTitle>
-            <SCFeedbackMsg theEnd={theEnd} >{feedbackArray.length === deckLength ? (forgotArray.length === 0 ? congratsMsg : sorryMsg) : '' }</SCFeedbackMsg>
+        <SCBottom data-test="footer" theEnd={theEnd} active={props.active}> 
+            <SCFeedbackContainer data-test="finish-text">
+                <SCFeedbackTitle theEnd={theEnd}>
+                    <SCFeedbackImg src={feedbackArray.length === deckLength ? (forgotArray.length === 0 ? './assets/party.png' : './assets/sad.png') : '' }></SCFeedbackImg>
+                    {feedbackArray.length === deckLength ? (forgotArray.length === 0 ? congratsTitle : sorryTitle) : '' }
+                </SCFeedbackTitle>
+                <SCFeedbackMsg theEnd={theEnd} >{feedbackArray.length === deckLength ? (forgotArray.length === 0 ? congratsMsg : sorryMsg) : '' }</SCFeedbackMsg>
+            </SCFeedbackContainer>
             <SCProgress>{feedbackArray.length}/{deckLength} CONCLUÍDOS </SCProgress> 
             <SCIconsContainer>
-                {feedbackArray.map((x) => {return (<SCBottomIcons src={x}></SCBottomIcons>)})}
+                {feedbackArray.map((x) => {return (<SCBottomIcons data-test={x === './assets/icone_erro.png' ? 'no-icon' : (x === './assets/icone_quase.png' ? 'partial-icon' : (x === './assets/icone_certo.png' ? 'zap-icon' : '')) } src={x}></SCBottomIcons>)})}
             </SCIconsContainer>
         </SCBottom>
         </>
@@ -73,7 +76,7 @@ export default function Card(card, props, deckLength){
 
 const SCBottom = styled.div`
 position: fixed;
-bottom: 0;
+top: ${(x) => x.theEnd ? '480px' : '597px'};
 left:0;
 background-color: #FFFFFF;
 width: 100%;
@@ -89,6 +92,12 @@ box-sizing: border-box;
 padding-left: 50px;
 padding-right: 50px;
 `
+
+const SCFeedbackContainer = styled.div`
+width: 100%;
+height: 100%;
+`
+
 const SCFeedbackImg = styled.img`
 width: 23px;
 height: 23px;

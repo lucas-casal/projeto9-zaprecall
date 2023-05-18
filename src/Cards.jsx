@@ -25,7 +25,7 @@ export default function Cards(props){
 
 const SCCardsContainer = styled.div`
     width: auto;
-    height: auto;
+    min-height: 500px;
     display: ${(props) => props.active ? 'none' : 'flex' } ;
     flex-direction: column;
     align-items: center;

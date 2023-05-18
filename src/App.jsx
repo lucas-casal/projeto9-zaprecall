@@ -14,7 +14,7 @@ function App() {
     <SCWelcomeBackground active={active}>
     <SCWelcomeLogo id='welcome-logo' src='./assets/logo.png'></SCWelcomeLogo>
     <SCWelcomeTitle>ZapRecall</SCWelcomeTitle>
-    <SCStartBtn id='start-btn' onClick={()=>{setActive(false)}}>Iniciar Recall!</SCStartBtn>  
+    <SCStartBtn data-test="start-btn" id='start-btn' onClick={()=>{setActive(false)}}>Iniciar Recall!</SCStartBtn>  
     </SCWelcomeBackground>
 
     <SCZapBackground id='zap-background'>
