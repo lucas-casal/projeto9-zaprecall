@@ -74,9 +74,10 @@ export default function Card(card, props, deckLength){
     )
 }
 
+//top: ${(x) => x.theEnd ? '480px' : '597px'};
 const SCBottom = styled.div`
 position: fixed;
-top: ${(x) => x.theEnd ? '480px' : '597px'};
+bottom: 0;
 left:0;
 background-color: #FFFFFF;
 width: 100%;
@@ -88,9 +89,8 @@ align-items: center;
 justify-content: center; 
 gap: 10px;
 padding-top: 10px;
-box-sizing: border-box;
-padding-left: 50px;
-padding-right: 50px;
+
+padding-bottom: 20px;
 `
 
 const SCFeedbackContainer = styled.div`
@@ -128,7 +128,10 @@ font-size: 18px;
 line-height: 22px;
 text-align: center;
 color: #333333;
-display: ${(x) => x.theEnd ? 'block' : 'none'}
+padding-left: 5px;
+padding-right: 5px;
+white-space: normal;
+display: ${(x) => x.theEnd ? 'flex' : 'none'}
 `
 
 const SCProgress = styled.div`

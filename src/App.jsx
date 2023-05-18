@@ -48,7 +48,7 @@ const SCWelcomeBackground = styled.div`
 const SCWelcomeLogo = styled.img`
   width: 136px;
   height: 161px;
-  margin-top: 25%
+  margin-top: 15%
 `
 const SCWelcomeTitle = styled.h1`
 width: 257px;
