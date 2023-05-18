@@ -48,7 +48,7 @@ const SCWelcomeBackground = styled.div`
 const SCWelcomeLogo = styled.img`
   width: 136px;
   height: 161px;
-  margin-top: 15%
+  margin-top: 18%;
 `
 const SCWelcomeTitle = styled.h1`
 width: 257px;
@@ -112,19 +112,19 @@ color: #FFFFFF;
 `
 const SCZapBackground = styled.div`
 width: 100%;
-height: 100%;
+height: 100hv;
 padding-bottom: 100px;
 display: ${(props) => props.active ? 'none' : 'block' } ;
 background-color: #FB6B6B;
 `
 const SCContent = styled.div`
 width: auto;
-max-height: 500px;
+max-height: 30%;
 padding-bottom: 50px;
 flex-direction: column;
 align-items: center;
 overflow-y: scroll;
-padding-top: 150px;
+padding-top: 148px;
 box-sizing: border-box;
 display: ${(props) => props.active ? 'none' : 'block' } ;
 `

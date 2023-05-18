@@ -89,8 +89,8 @@ align-items: center;
 justify-content: center; 
 gap: 10px;
 padding-top: 10px;
-
 padding-bottom: 20px;
+border-top: 1px solid black;
 `
 
 const SCFeedbackContainer = styled.div`
